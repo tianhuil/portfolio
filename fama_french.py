@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn import linear_model
 from IPython.display import display, HTML
+import waterfall_chart
 
 FILE = "data/FF-Factors.csv"
 
@@ -49,12 +50,22 @@ def ff_importances(df, ff_weights, factors=FACTORS, monthly=False):
 
     return importances
 
-def ff_display(df, index_cols, monthly=False):
-    ff_weights_ = ff_weights(df, index_cols)
-
+def ff_display(df, index_cols, waterfall_cols=None, monthly=False):
     display(HTML("<b>Fama French factors:</b>"))
+    ff_weights_ = ff_weights(df, index_cols)
     display(ff_weights_)
-    print("")
 
+    print("")
     display(HTML("<b>Contributions to return:</b>"))
-    display(ff_importances(df, ff_weights_) * (12. if monthly else 1.))
+    ff_importances_ = ff_importances(df, ff_weights_) * (12. if monthly else 1.)
+    display(ff_importances_)
+
+    if waterfall_cols is None:
+        waterfall_cols = index_cols
+
+    for col in waterfall_cols:
+        waterfall_chart.plot(
+            ff_importances_.index,
+            ff_importances_[col] * 100,
+            formatting = "{:,.2f}%",
+            Title=col);
