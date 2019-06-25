@@ -105,3 +105,5 @@ venv.bak/
 
 # customized
 .vscode/
+
+data/TacticalAmerica.tsv
