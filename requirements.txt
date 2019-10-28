@@ -11,3 +11,5 @@ seaborn==0.9.0
 scikit-learn==0.21.2
 beautifulsoup4==4.7.1
 waterfallcharts==3.8
+yfinance==0.1.45
+empyrical==0.5.3
